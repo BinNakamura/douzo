@@ -72,3 +72,9 @@ networks:
       driver: default
       config:
         - subnet: 192.168.10.0/24
+  keycloak_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.169.10.0/24
