@@ -41,31 +41,32 @@ services:
     depends_on:
       - nginx_proxy
     # 新規作成(サブドメも含めて取得する)
-    # entrypoint: ["certbot", "certonly", "-d $DOMAIN", "-d $API_DOMAIN",  "-d $KEY_DOMAIN", "-m $MAIL", "--agree-tos","--webroot", "-w","/usr/share/nginx/html/"]
-    environment:
-      - DOMAIN=${DOMAIN}
-      - API_DOMAIN=${API_DOMAIN}
-      - KEY_DOMAIN=${KEY_DOMAIN}
-      - MAIL=${MAIL}
-    command: >
-      sh -c "certbot certonly
-      --webroot -w /usr/share/nginx/html/
-      -d ${DOMAIN}
-      -d ${API_DOMAIN}
-      -d ${KEY_DOMAIN}
-      -m ${MAIL}
-      --agree-tos
-      --non-interactive
-      --email ${MAIL}"
+    ## entrypoint: ["certbot", "certonly", "-d $DOMAIN", "-d $API_DOMAIN",  "-d $KEY_DOMAIN", "-m $MAIL", "--agree-tos","--webroot", "-w","/usr/share/nginx/html/"]
+    #environment:
+    #  - DOMAIN=${DOMAIN}
+    #  - API_DOMAIN=${API_DOMAIN}
+    #  - KEY_DOMAIN=${KEY_DOMAIN}
+    #  - MAIL=${MAIL}
+    #command: >
+    #  sh -c "certbot certonly
+    #  --webroot -w /usr/share/nginx/html/
+    #  -d ${DOMAIN}
+    #  -d ${API_DOMAIN}
+    #  -d ${KEY_DOMAIN}
+    #  -m ${MAIL}
+    #  --agree-tos
+    #  --non-interactive
+    #  --email ${MAIL}"
 
-    # 更新の時はこちら
+    # 更新の時はこちら(証明書発行後)
     # 参考
     # https://hogetech.info/network/web/lets-encrypt
     # https://qiita.com/HeRo/items/f9eb8d8a08d4d5b63ee9
     # https://server-recipe.com/1577/
     #entrypoint: ["certbot", "renew"]
-    # 普段
-    #command: ["--version"]
+    # 普段(証明書発行後)
+    ##command: ["--version"]
+    command: ["renew", "--quiet"]
 
 
 volumes:
