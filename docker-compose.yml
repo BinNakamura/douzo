@@ -32,6 +32,24 @@ services:
       # HTTPS用の証明書とキーをホストOSから、ゲストOSに連結する
       - /etc/letsencrypt:/etc/letsencrypt
       - html_proxy:/usr/share/nginx/html
+  
+  app:
+    build: ./web
+    networks:
+      - app_net
+    environment:
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      CSRF_SECRET: ${CSRF_SECRET}
+      SECRET_KEY: ${SECRET_KEY}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+    volumes:
+      - socket:/tmp
+      - ./migrations/:/root/udemy-flask-sample/web/migrations
 
   certbot:
     image: certbot/certbot:v1.26.0
