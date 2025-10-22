@@ -41,7 +41,23 @@ services:
     depends_on:
       - nginx_proxy
     # 新規作成(サブドメも含めて取得する)
-    entrypoint: ["certbot", "certonly", "-d $DOMAIN", "-d $API_DOMAIN",  "-d $KEY_DOMAIN", "-m $MAIL", "--agree-tos","--webroot", "-w","/usr/share/nginx/html/"]
+    # entrypoint: ["certbot", "certonly", "-d $DOMAIN", "-d $API_DOMAIN",  "-d $KEY_DOMAIN", "-m $MAIL", "--agree-tos","--webroot", "-w","/usr/share/nginx/html/"]
+    environment:
+      - DOMAIN=${DOMAIN}
+      - API_DOMAIN=${API_DOMAIN}
+      - KEY_DOMAIN=${KEY_DOMAIN}
+      - MAIL=${MAIL}
+    command: >
+      sh -c "certbot certonly
+      --webroot -w /usr/share/nginx/html/
+      -d ${DOMAIN}
+      -d ${API_DOMAIN}
+      -d ${KEY_DOMAIN}
+      -m ${MAIL}
+      --agree-tos
+      --non-interactive
+      --email ${MAIL}"
+
     # 更新の時はこちら
     # 参考
     # https://hogetech.info/network/web/lets-encrypt
