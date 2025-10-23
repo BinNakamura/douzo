@@ -8,6 +8,9 @@ ENV TZ="Asia/Tokyo" \
 
 # システムパッケージ
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    python3-pip \
     logrotate \
     && rm -rf /var/lib/apt/lists/*
 
@@ -25,3 +28,4 @@ COPY ./ ./
 
 # 起動コマンド
 CMD ["uwsgi", "--ini", "app.ini"]
+
