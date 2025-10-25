@@ -1,38 +1,10 @@
-from distutils.log import Log
-from flask import Flask, jsonify
-from flask_debugtoolbar import DebugToolbarExtension
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_wtf.csrf import CSRFProtect
-from flask_mail import Mail
-
-import importlib
-import logging
-import os
-from datetime import timedelta
-
-# blue printで作る
-app = Flask(
-    __name__,
-    static_folder = "views/static",
-    template_folder = "views/templates"
-)
-
+from flask import Flask
 
 def create_app():
+    app = Flask(__name__)
 
-    # blue printでルートを設定する
-    from apps.pymodule.landing import index as landing_view
-    app.register_blueprint(landing_view.landing)
+    @app.route('/')
+    def hello():
+        return "Hello from Flask via uWSGI + nginx!"
 
     return app
-
-@app.errorhandler(500)
-def error_500(e):
-    print('httpステータス:{}, メッセージ:{}, 詳細:{}'.format(e.code, e.name, e.description))
-    return jsonify({'message': 'internal server error', 'action': 'サーバエラーが発生しました。しばらくしてからもう一度アクセスしてください。'}), 500
-
-@app.errorhandler(404)
-def error_404(e):
-    print('httpステータス:{}, メッセージ:{}, 詳細:{}'.format(e.code, e.name, e.description))
-    return jsonify({'message': 'ページが存在しないようです。URLをもう一度ご確認ください', 'action': 'ページが存在しないようです。URLをもう一度ご確認ください'}), 404
