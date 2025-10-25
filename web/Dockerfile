@@ -1,19 +1,23 @@
+# app/Dockerfile
 FROM python:3.11-slim
 
-WORKDIR /root/douzo/web
+WORKDIR /app
 
-# --- uWSGI ビルドに必要なパッケージを追加 ---
+# 必要なパッケージをインストール（libpcre3 系ではなく libpcre2 系を使用）
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
-    libpcre3 \
-    libpcre3-dev \
+    libpcre2-8-0 \
+    libpcre2-dev \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# --- Flask & uWSGI をインストール ---
-RUN pip install --no-cache-dir flask uwsgi
+# Python パッケージをインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /root/douzo/web
+# アプリをコピー
+COPY . .
 
+# uWSGI を起動
 CMD ["uwsgi", "--ini", "app.ini"]
