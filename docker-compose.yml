@@ -1,61 +1,30 @@
 version: '3.5'
 
 services:
-  nginx:
-    build:
-      context: ./nginx
-    container_name: nginx_koz
+  app:
+    build: ./web
+    container_name: web_app
+    volumes:
+      - socket:/tmp
     networks:
-      nginx_net:
-        ipv4_address: 172.16.0.9
+      - app_net
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_web
+    depends_on:
+      - app
     ports:
-      - "19688:80"
+      - "8080:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - socket:/tmp
-    depends_on:
-      - app
-
-  nginx_proxy:
-    build:
-      context: ./nginx_proxy
-    container_name: nginx_proxy_koz
     networks:
-      - nginx_net
-    depends_on:
-      - nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - html_proxy:/usr/share/nginx/html
-
-  app:
-    build: ./web
-    container_name: douzo_app_1
-    networks:
-      - nginx_net
-    volumes:
-      - socket:/tmp
-    restart: always
-
-  certbot:
-    image: certbot/certbot:v1.26.0
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - html_proxy:/usr/share/nginx/html
-    depends_on:
-      - nginx_proxy
-    command: ["renew", "--quiet"]
+      - app_net
 
 volumes:
   socket:
-  html_proxy:
 
 networks:
-  nginx_net:
+  app_net:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/24
