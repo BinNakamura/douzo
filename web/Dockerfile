@@ -11,12 +11,15 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# pip をアップデート
+RUN pip install --upgrade pip
+
 # Pythonモジュールインストール
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # アプリケーションコピー
-COPY . .
+COPY ./ ./
 
 # uWSGI 起動
 CMD ["uwsgi", "--ini", "app.ini"]
