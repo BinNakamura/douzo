@@ -1,25 +1,24 @@
 FROM python:3.11
 
-WORKDIR /app
-
-# uWSGI のビルドに必要なパッケージをインストール
+# 必要なパッケージをインストール
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
     gcc \
-    libpcre2-dev \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# pip をアップデート
-RUN pip install --upgrade pip
+# 作業ディレクトリ
+WORKDIR /web
 
-# Pythonモジュールインストール
-COPY requirements.txt .
+# 必要なファイルをコピー
+COPY requirements.txt /web/requirements.txt
+COPY app.ini /web/app.ini
+COPY wsgi.py /web/wsgi.py
+COPY apps /web/apps
+
+# Pythonパッケージをインストール
 RUN pip install --no-cache-dir -r requirements.txt
 
-# アプリケーションコピー
-COPY ./ ./
-
-# uWSGI 起動
-CMD ["uwsgi", "--ini", "app.ini"]
+# uWSGIを使ってアプリを起動
+CMD ["uwsgi", "--ini", "/web/app.ini", "--die-on-term"]
