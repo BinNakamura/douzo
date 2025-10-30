@@ -1,8 +1,4 @@
-# from app import app as application 
-# uwsgiはcallableがapplicationを想定している
-# そのためapplicationという別名にしないとNG
+from apps.app import app
 
-import apps.app as application
-app = application.create_app()
-print(app.url_map)
-app.run()
+if __name__ == "__main__":
+    app.run()
