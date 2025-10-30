@@ -1,21 +1,18 @@
 FROM python:3.11-slim
 
-# 必要なビルドツールをインストール
+WORKDIR /web
+
+# 基本ツールとビルド依存をインストール
 RUN apt-get update && apt-get install -y \
-    build-essential \
     gcc \
+    build-essential \
     libssl-dev \
-    libpcre2-dev \
- && rm -rf /var/lib/apt/lists/*
+    libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# 作業ディレクトリ
-WORKDIR /app
-
-# アプリをコピー
-COPY . /app
-
-# FlaskとuWSGIをインストール
+# Flask と uWSGI をインストール
 RUN pip install --no-cache-dir flask uwsgi
 
-# uWSGIを起動
+COPY . .
+
 CMD ["uwsgi", "--ini", "app.ini"]
