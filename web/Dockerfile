@@ -3,8 +3,13 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # uWSGI のビルドに必要なパッケージをインストール
-RUN apt-get update && apt-get install -y build-essential gcc libssl-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    python3-dev \
+    gcc \
+    libpcre3-dev \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Pythonモジュールインストール
 COPY requirements.txt .
