@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
     gcc \
-    libpcre3-dev \
+    libpcre2-dev \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
