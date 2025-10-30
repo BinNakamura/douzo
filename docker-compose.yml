@@ -6,6 +6,10 @@ services:
     container_name: web_app
     volumes:
       - socket:/tmp
+      - ./web/app.ini:/web/app.ini
+      - ./web/wsgi.py:/web/wsgi.py
+      - ./web/apps:/web/apps
+
     networks:
       - app_net
 
