@@ -1,20 +1,17 @@
 FROM python:3.11-slim
 
-# 作業ディレクトリ
-WORKDIR /web
+WORKDIR /app
 
-# 必要パッケージ
-RUN apt-get update && apt-get install -y build-essential gcc libpcre3-dev libssl-dev && rm -rf /var/lib/apt/lists/*
+# uWSGI のビルドに必要なパッケージをインストール
+RUN apt-get update && apt-get install -y build-essential gcc libssl-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# requirements.txt を使う場合
-# COPY requirements.txt .
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# 最小構成では Flask + uWSGI
-RUN pip install --no-cache-dir flask uwsgi
+# Pythonモジュールインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # アプリケーションコピー
-COPY ./ ./
+COPY . .
 
-# uWSGI 起動コマンド
+# uWSGI 起動
 CMD ["uwsgi", "--ini", "app.ini"]
