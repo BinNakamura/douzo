@@ -15,6 +15,9 @@ services:
       - html:/usr/share/nginx/html
       - socket:/tmp
       - socket_api:/tmp_api
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
 
   nginx_proxy:
     build:
