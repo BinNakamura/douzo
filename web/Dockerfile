@@ -1,24 +1,10 @@
-FROM python:3.11
+FROM python:3.10-slim
 
-# 必要なパッケージをインストール
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python3-dev \
-    gcc \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-# 作業ディレクトリ
-WORKDIR /web
-
-# 必要なファイルをコピー
-COPY requirements.txt /web/requirements.txt
-COPY app.ini /web/app.ini
-COPY wsgi.py /web/wsgi.py
-COPY apps /web/apps
-
-# Pythonパッケージをインストール
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# uWSGIを使ってアプリを起動
-CMD ["uwsgi", "--ini", "/web/app.ini", "--die-on-term"]
+COPY . .
+
+CMD ["gunicorn", "--bind", "unix:/tmp/gunicorn.sock", "app:app"]
