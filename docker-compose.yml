@@ -32,7 +32,7 @@ services:
     container_name: certbot
     entrypoint: >
       sh -c "certbot certonly --webroot -w /var/www/certbot
-      --email you@example.com
+      --email bnakamur@hotmail.com
       -d douzo.top
       --agree-tos --no-eff-email"
     volumes:
