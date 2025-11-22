@@ -1,0 +1,33 @@
+{% extends "layout_login.html" %}
+
+{# ユーザ個別ページなのでタイトルも変更 #}
+{% block title %}
+    {{ user_id }}さんのどうぞページ
+{% endblock %}
+
+{% block contents %}
+
+{# お気に入り登録有無と登録解除リンク #}
+<div class="box_c">
+    {% if is_fav %}
+        👉<a class="pure-button" href="/fav/remove/{{ user_id }}">お気に入りを外す</a>
+    {% else %}
+        👉<a class="pure-button" href="/fav/add/{{ user_id }}">お気に入りに登録</a>
+    {% endif %}   
+</div>
+<h3>どうぞリスト</h3>
+
+{# どうぞリストを表示 #}
+{% if text_list | length == 0 %}
+    まだ、どうぞがありません。
+{% endif %}
+<div class="douzo-list">
+{% for t in text_list %}
+    <div class="douzo">
+        {{ t.text | linebreak }}
+        <p class="info">{{ t.time | datestr }}</p>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock %}

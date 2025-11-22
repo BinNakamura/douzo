@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block header %}
+<!-- ハンバーガーアイコン -->
+<a href="#menu" id="menuLink" class="menu-link">
+    <span></span>
+</a>
+<!-- サイドメニュー -->
+<div id="menu">
+<dlv class="pure-menu">
+    <a class="pure-menu-heading" href="#">どうぞメニュー</a>
+    <ul class="pure-menu-list">
+        <li class="pure-menu-item">
+            <a href="/" class="pure-menu-link">タイムライン</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="/write" class="pure-menu-link">あげるもを書く</a>
+        </li>
+        <li class="pure-menu-item">
+            <a href="/logout" class="pure-menu-link">ログアウト</a>
+    </ul>
+</dlv>
+</div>
+{% endblock %}
+
+{% block fotter_script %}
+<script src="/static/ui.js"></script>
+{% endblock %}
