@@ -29,8 +29,8 @@
 
         e.preventDefault();
         toggleClass(layout, active);
-        toggleClass(menu, active);
-        toggleClass(menuLink, active);
+//        toggleClass(menu, active);
+//        toggleClass(menuLink, active);
     }
 
     menuLink.onclick = function (e) {
@@ -38,7 +38,8 @@
     };
 
     content.onclick = function(e) {
-        if (menu.className.indexOf('active') !== -1) {
+//        if (menu.className.indexOf('active') !== -1) {
+        if (layout.className.indexOf('active') !== -1) {
             toggleAll(e);
         }
     };
