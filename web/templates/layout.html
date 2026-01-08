@@ -25,10 +25,11 @@
                     {% block contents %}
                     <!-- ここにメインコンテンツの内容 -->
                     {% endblock %}
+                
+                    {% block footer %}
+                        <p class="footer"><a href="/" class="pure-button">トップページへ</a></p>
+                    {% endblock %}
                 </div>
-                {% block footer %}
-                    <p class="footer"><a href="/" class="pure-button">トップページへ</a></p>
-                {% endblock %}
             </div>
         </div>
         {% block footer_script %}
