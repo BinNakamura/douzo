@@ -12,6 +12,7 @@ app.secret_key = 'AngoukaKeywoShitei'
 @app.route('/')
 @user.login_required
 def index():
+    print("PID:", os.getpid()) # デバッグ用にプロセスIDを表示
     me = user.get_id()
     return render_template('index.html', id=me,
                             users=user.get_allusers(),
