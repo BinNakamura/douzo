@@ -8,11 +8,11 @@ import sns_user as user, sns_data as data
 app = Flask(__name__)
 app.secret_key = 'AngoukaKeywoShitei'
 
+
 # --- URLのルーティング ---
 @app.route('/')
 @user.login_required
 def index():
-    print("PID:", os.getpid()) # デバッグ用にプロセスIDを表示
     me = user.get_id()
     return render_template('index.html', id=me,
                             users=user.get_allusers(),
@@ -97,5 +97,4 @@ def datestr_filter(s):
     return time.strftime('%Y年%m月%d日',time.localtime(s))
 
 if __name__ == '__main__':
-    # 本番反映時はdebug=Falseにする
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

@@ -1,2 +1,2 @@
 # douzo
-commmit 2026/02/12 もう一度確認
+commmit 2026/02/19 SQLiteに変更
